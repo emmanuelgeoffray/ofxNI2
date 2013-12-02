@@ -1,10 +1,10 @@
 #pragma once
 
-#include "ofMain.h"
 
 #include "OpenNI.h"
 #include <assert.h>
 
+#include "ofMain.h"
 #include "utils/DoubleBuffer.h"
 
 namespace ofxNI2

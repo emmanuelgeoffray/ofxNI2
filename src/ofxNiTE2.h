@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ofMain.h"
+#include "NiTE.h"
 #include "ofxNI2.h"
 
-#include "NiTE.h"
+#include "ofMain.h"
 
 namespace ofxNiTE2
 {

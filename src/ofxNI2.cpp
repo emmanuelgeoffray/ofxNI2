@@ -4,14 +4,14 @@
 
 namespace ofxNI2
 {
-	void assert_error(openni::Status rc)
+	void assert_error(Status rc)
 	{
 		if (rc == openni::STATUS_OK) return;
 		ofLogError("ofxNI2") << openni::OpenNI::getExtendedError();
 		throw;
 	}
 
-	void check_error(openni::Status rc)
+	void check_error(Status rc)
 	{
 		if (rc == openni::STATUS_OK) return;
 		ofLogError("ofxNI2") << openni::OpenNI::getExtendedError();
@@ -238,7 +238,7 @@ bool Stream::setSize(int width, int height)
 {
 	openni::VideoMode m = stream.getVideoMode();
 	m.setResolution(width, height);
-	openni::Status rc = stream.setVideoMode(m);
+	Status rc = stream.setVideoMode(m);
 	
 	if (rc == openni::STATUS_OK)
 	{
@@ -278,7 +278,7 @@ bool Stream::setFps(int v)
 {
 	openni::VideoMode m = stream.getVideoMode();
 	m.setFps(v);
-	openni::Status rc = stream.setVideoMode(m);
+	Status rc = stream.setVideoMode(m);
 	
 	if (rc == openni::STATUS_OK)
 	{

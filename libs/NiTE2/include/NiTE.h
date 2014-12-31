@@ -434,7 +434,7 @@ public:
 		destroy();
 	}
 
-	Status create(openni::Device* pDevice = NULL)
+	OniStatus create(openni::Device* pDevice = NULL)
 	{
 		if (isValid())
 		{
@@ -444,9 +444,9 @@ public:
 
 		if (pDevice == NULL)
 		{
-			return (Status)niteInitializeUserTracker(&m_userTrackerHandle);
+			return (OniStatus)niteInitializeUserTracker(&m_userTrackerHandle);
 		}
-		return (Status)niteInitializeUserTrackerByDevice(pDevice, &m_userTrackerHandle);
+		return (OniStatus)niteInitializeUserTrackerByDevice(pDevice, &m_userTrackerHandle);
 	}
 
 	void destroy()
@@ -459,10 +459,10 @@ public:
 	}
 
 	/** Get the next snapshot of the algorithm */
-	Status readFrame(UserTrackerFrameRef* pFrame)
+	OniStatus readFrame(UserTrackerFrameRef* pFrame)
 	{
 		NiteUserTrackerFrame *pNiteFrame = NULL;
-		Status rc = (Status)niteReadUserTrackerFrame(m_userTrackerHandle, &pNiteFrame);
+		OniStatus rc = (OniStatus)niteReadUserTrackerFrame(m_userTrackerHandle, &pNiteFrame);
 		pFrame->setReference(m_userTrackerHandle, pNiteFrame);
 
 		return rc;
@@ -474,14 +474,14 @@ public:
 	}
 
 	/** Control the smoothing factor of the skeleton joints. Factor should be between 0 (no smoothing at all) and 1 (no movement at all) */
-	Status setSkeletonSmoothingFactor(float factor)
+	OniStatus setSkeletonSmoothingFactor(float factor)
 	{
-		return (Status)niteSetSkeletonSmoothing(m_userTrackerHandle, factor);
+		return (OniStatus)niteSetSkeletonSmoothing(m_userTrackerHandle, factor);
 	}
 	float getSkeletonSmoothingFactor() const
 	{
 		float factor;
-		Status rc = (Status)niteGetSkeletonSmoothing(m_userTrackerHandle, &factor);
+		OniStatus rc = (OniStatus)niteGetSkeletonSmoothing(m_userTrackerHandle, &factor);
 		if (rc != STATUS_OK)
 		{
 			factor = 0;
@@ -490,9 +490,9 @@ public:
 	}
 
 	/** Request a skeleton for a specific user */
-	Status startSkeletonTracking(UserId id)
+	OniStatus startSkeletonTracking(UserId id)
 	{
-		return (Status)niteStartSkeletonTracking(m_userTrackerHandle, id);
+		return (OniStatus)niteStartSkeletonTracking(m_userTrackerHandle, id);
 	}
 	/** Inform the algorithm that a skeleton is no longer required for a specific user */
 	void stopSkeletonTracking(UserId id)
@@ -501,9 +501,9 @@ public:
 	}
 
 	/** Start detecting a specific gesture */
-	Status startPoseDetection(UserId user, PoseType type)
+	OniStatus startPoseDetection(UserId user, PoseType type)
 	{
-		return (Status)niteStartPoseDetection(m_userTrackerHandle, (NiteUserId)user, (NitePoseType)type);
+		return (OniStatus)niteStartPoseDetection(m_userTrackerHandle, (NiteUserId)user, (NitePoseType)type);
 	}
 	
 	/** Stop detecting a specific gesture */
@@ -528,18 +528,18 @@ public:
 	While the depth coordinates are projective, the joint is provided in real world coordinates, i.e. number of millimeters from the sensor.
 	This function enables conversion from the joint coordinates to the depth coordinates. This is useful, for instance, to match the joint on the depth.
 	*/
-	Status convertJointCoordinatesToDepth(float x, float y, float z, float* pOutX, float* pOutY) const
+	OniStatus convertJointCoordinatesToDepth(float x, float y, float z, float* pOutX, float* pOutY) const
 	{
-		return (Status)niteConvertJointCoordinatesToDepth(m_userTrackerHandle, x, y, z, pOutX, pOutY);
+		return (OniStatus)niteConvertJointCoordinatesToDepth(m_userTrackerHandle, x, y, z, pOutX, pOutY);
 	}
 	/**
 	Skeleton joint position is provided in a different set of coordinates than the depth coordinates.
 	While the depth coordinates are projective, the joint is provided in real world coordinates, i.e. number of millimeters from the sensor.
 	This function enables conversion from the depth coordinates to the joint coordinates. This is useful, for instance, to allow measurements.
 	*/
-	Status convertDepthCoordinatesToJoint(int x, int y, int z, float* pOutX, float* pOutY) const
+	OniStatus convertDepthCoordinatesToJoint(int x, int y, int z, float* pOutX, float* pOutY) const
 	{
-		return (Status)niteConvertDepthCoordinatesToJoint(m_userTrackerHandle, x, y, z, pOutX, pOutY);
+		return (OniStatus)niteConvertDepthCoordinatesToJoint(m_userTrackerHandle, x, y, z, pOutX, pOutY);
 	}
 
 private:
@@ -683,7 +683,7 @@ public:
 		destroy();
 	}
 
-	Status create(openni::Device* pDevice = NULL)
+	OniStatus create(openni::Device* pDevice = NULL)
 	{
 		if (isValid())
 		{
@@ -693,10 +693,10 @@ public:
 
 		if (pDevice == NULL)
 		{
-			return (Status)niteInitializeHandTracker(&m_handTrackerHandle);
+			return (OniStatus)niteInitializeHandTracker(&m_handTrackerHandle);
 			// Pick a device
 		}
-		return (Status)niteInitializeHandTrackerByDevice(pDevice, &m_handTrackerHandle);
+		return (OniStatus)niteInitializeHandTrackerByDevice(pDevice, &m_handTrackerHandle);
 	}
 
 	void destroy()
@@ -709,10 +709,10 @@ public:
 	}
 
 	/** Get the next snapshot of the algorithm */
-	Status readFrame(HandTrackerFrameRef* pFrame)
+	OniStatus readFrame(HandTrackerFrameRef* pFrame)
 	{
 		NiteHandTrackerFrame *pNiteFrame = NULL;
-		Status rc = (Status)niteReadHandTrackerFrame(m_handTrackerHandle, &pNiteFrame);
+		OniStatus rc = (OniStatus)niteReadHandTrackerFrame(m_handTrackerHandle, &pNiteFrame);
 		pFrame->setReference(m_handTrackerHandle, pNiteFrame);
 
 		return rc;
@@ -724,14 +724,14 @@ public:
 	}
 
 	/** Control the smoothing factor of the skeleton joints */
-	Status setSmoothingFactor(float factor)
+	OniStatus setSmoothingFactor(float factor)
 	{
-		return (Status)niteSetHandSmoothingFactor(m_handTrackerHandle, factor);
+		return (OniStatus)niteSetHandSmoothingFactor(m_handTrackerHandle, factor);
 	}
 	float getSmoothingFactor() const
 	{
 		float factor;
-		Status rc = (Status)niteGetHandSmoothingFactor(m_handTrackerHandle, &factor);
+		OniStatus rc = (OniStatus)niteGetHandSmoothingFactor(m_handTrackerHandle, &factor);
 		if (rc != STATUS_OK)
 		{
 			factor = 0;
@@ -743,9 +743,9 @@ public:
 	Request a hand in a specific position, assuming there really is a hand there.
 	For instance, the position received from a gesture can be used.
 	*/
-	Status startHandTracking(const Point3f& position, HandId* pNewHandId)
+	OniStatus startHandTracking(const Point3f& position, HandId* pNewHandId)
 	{
-		return (Status)niteStartHandTracking(m_handTrackerHandle, (const NitePoint3f*)&position, pNewHandId);
+		return (OniStatus)niteStartHandTracking(m_handTrackerHandle, (const NitePoint3f*)&position, pNewHandId);
 	}
 	/** Inform the algorithm that a specific hand is no longer required */
 	void stopHandTracking(HandId id)
@@ -765,9 +765,9 @@ public:
 	}
 
 	/** Start detecting a specific gesture */
-	Status startGestureDetection(GestureType type)
+	OniStatus startGestureDetection(GestureType type)
 	{
-		return (Status)niteStartGestureDetection(m_handTrackerHandle, (NiteGestureType)type);
+		return (OniStatus)niteStartGestureDetection(m_handTrackerHandle, (NiteGestureType)type);
 	}
 	/** Stop detecting a specific gesture */
 	void stopGestureDetection(GestureType type)
@@ -780,18 +780,18 @@ public:
 	While the depth coordinates are projective, the hand and gestures are provided in real world coordinates, i.e. number of millimeters from the sensor.
 	This function enables conversion from the hand coordinates to the depth coordinates. This is useful, for instance, to match the hand to the depth.
 	*/
-	Status convertHandCoordinatesToDepth(float x, float y, float z, float* pOutX, float* pOutY) const
+	OniStatus convertHandCoordinatesToDepth(float x, float y, float z, float* pOutX, float* pOutY) const
 	{
-		return (Status)niteConvertHandCoordinatesToDepth(m_handTrackerHandle, x, y, z, pOutX, pOutY);
+		return (OniStatus)niteConvertHandCoordinatesToDepth(m_handTrackerHandle, x, y, z, pOutX, pOutY);
 	}
 	/**
 	Hand position is provided in a different set of coordinates than the depth coordinates.
 	While the depth coordinates are projective, the hand and gestures are provided in real world coordinates, i.e. number of millimeters from the sensor.
 	This function enables conversion from the depth coordinates to the hand coordinates. This is useful, for instance, to allow measurements.
 	*/
-	Status convertDepthCoordinatesToHand(int x, int y, int z, float* pOutX, float* pOutY) const
+	OniStatus convertDepthCoordinatesToHand(int x, int y, int z, float* pOutX, float* pOutY) const
 	{
-		return (Status)niteConvertDepthCoordinatesToHand(m_handTrackerHandle, x, y, z, pOutX, pOutY);
+		return (OniStatus)niteConvertDepthCoordinatesToHand(m_handTrackerHandle, x, y, z, pOutX, pOutY);
 	}
 
 private:
@@ -805,9 +805,9 @@ Through it you can initialize the library, as well as create User Trackers and H
 class NiTE
 {
 public:
-	static Status initialize()
+	static OniStatus initialize()
 	{
-		return (Status)niteInitialize();
+		return (OniStatus)niteInitialize();
 	}
 	static void shutdown()
 	{

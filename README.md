@@ -1,3 +1,7 @@
+This is compiling on linux but not tested.
+TODO: add /lib/linux, to do the same as below
+
+
 OSX:
 
 Add to Run Script

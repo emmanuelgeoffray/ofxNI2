@@ -8,7 +8,7 @@ namespace ofxNI2
 	{
 		if (rc == openni::STATUS_OK) return;
 		ofLogError("ofxNI2") << openni::OpenNI::getExtendedError();
-		throw;
+		//throw;
 	}
 
 	void check_error(Status rc)
@@ -21,7 +21,6 @@ namespace ofxNI2
 	{
 		static bool inited = false;
 		if (inited) return;
-		inited = true;
 
 		// initialize oF path, don't comment out
 		ofToDataPath(".");
@@ -35,8 +34,9 @@ namespace ofxNI2
 		else
 		{
 			ofLogError("ofxNI2") << "libs not found";
-			ofExit(-1);
+			//ofExit(-1);
 		}
+		inited = true;
 	}
 }
 
@@ -71,8 +71,11 @@ void Device::setup()
 {
 	ofxNI2::init();
 	
-	assert_error(device.open(openni::ANY_DEVICE)); 
-	assert_error(device.setDepthColorSyncEnabled(true));
+  static bool inited = false;
+  if (inited){
+    assert_error(device.open(openni::ANY_DEVICE)); 
+    assert_error(device.setDepthColorSyncEnabled(true));
+  }
 }
 
 void Device::setup(int device_id)
